@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Register = () => {
 
@@ -8,9 +10,20 @@ const Register = () => {
   const [password, setPassword] = useState('');
 
   // register method
-  function handleRegister(e) {
+  async function handleRegister(e) {
     e.preventDefault();
-    console.log('register', name, email, password);
+    try {
+      const response = await axios.post('http://localhost:5000/api/user/register', { name, email, password });
+      if (response.data.success) {
+        toast.success(response.data.message);
+      }
+      else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error('Something went wront!');
+      console.log('error', error);
+    }
   }
 
   return (
