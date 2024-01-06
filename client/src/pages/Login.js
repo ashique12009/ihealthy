@@ -1,15 +1,30 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   // register method
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    console.log('login', email, password);
+    try {
+      const response = await axios.post('/api/user/login', { email, password });
+      if (response.data.success) {
+        toast.success(response.data.message);
+        localStorage.setItem('token', response.data.data);
+        navigate('/dashboard');
+      }
+      else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error('Something went wrong!');
+    }
   }
 
   return (

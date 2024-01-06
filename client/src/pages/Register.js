@@ -13,7 +13,7 @@ const Register = () => {
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/user/register', { name, email, password });
+      const response = await axios.post('/api/user/register', { name, email, password });
       if (response.data.success) {
         toast.success(response.data.message);
       }
