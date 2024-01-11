@@ -1,19 +1,24 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { hideLoading, showLoading } from '../redux/alertsSlice';
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // register method
+  // login method
   async function handleLogin(e) {
     e.preventDefault();
     try {
+      dispatch(showLoading());
       const response = await axios.post('/api/user/login', { email, password });
+      dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
         localStorage.setItem('token', response.data.data);
@@ -23,6 +28,7 @@ const Login = () => {
         toast.error(response.data.message);
       }
     } catch (error) {
+      dispatch(hideLoading());
       toast.error('Something went wrong!');
     }
   }
