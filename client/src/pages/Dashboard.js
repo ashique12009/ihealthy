@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -24,9 +25,9 @@ function Dashboard() {
   });
 
   return (
-    <div>
-      <h1 className='text-center'>Welcome to iHealthy Dashboard</h1>
-    </div>
+    <Layout>
+      <h1>Dashboard</h1>
+    </Layout>
   )
 }
 
